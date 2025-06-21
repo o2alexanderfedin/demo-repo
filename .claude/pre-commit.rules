@@ -1,0 +1,36 @@
+# Pre-commit Hook Rules
+
+## Code Quality Checks
+- Run linters for all modified files
+- Check for syntax errors in code files
+- Validate JSON and YAML files
+- Ensure no debugger statements in code
+- Check for console.log statements in production code
+
+## Security Checks
+- Scan for hardcoded credentials
+- Check for exposed API keys
+- Validate no sensitive information in commits
+- Ensure no private keys or certificates are committed
+
+## File Checks
+- Verify no large binary files (>10MB)
+- Check for trailing whitespace
+- Ensure files end with newline
+- Validate file permissions are correct
+- Check for merge conflict markers
+
+## Testing Requirements
+- Run unit tests for modified files
+- Ensure test coverage meets minimum threshold
+- Validate no broken tests
+
+## Documentation
+- Check for missing documentation in new functions
+- Ensure README updates for new features
+- Validate markdown formatting
+
+## Project Specific
+- Ensure package-lock.json is updated with package.json
+- Check for unused dependencies
+- Validate import statements

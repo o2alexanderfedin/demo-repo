@@ -1,0 +1,54 @@
+# Commit Message Hook Rules
+
+## Format Requirements
+- First line should be 50 characters or less
+- Use imperative mood in subject line ("Add feature" not "Added feature")
+- Capitalize first letter of subject line
+- No period at end of subject line
+- Blank line between subject and body
+- Body lines wrapped at 72 characters
+
+## Commit Types (Conventional Commits)
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation changes
+- style: Code style changes (formatting, semicolons, etc)
+- refactor: Code refactoring
+- perf: Performance improvements
+- test: Adding or updating tests
+- build: Build system changes
+- ci: CI configuration changes
+- chore: Maintenance tasks
+- revert: Reverting previous commits
+
+## Content Requirements
+- Reference issue numbers when applicable (#123)
+- Include breaking changes with BREAKING CHANGE:
+- Provide context for why the change was made
+- List any side effects or consequences
+
+## Prohibited Content
+- No profanity or inappropriate language
+- No personal information or credentials
+- No TODO comments as commit messages
+- No WIP (work in progress) commits to main branch
+
+## Examples
+```
+feat: add user authentication system
+
+Implemented JWT-based authentication with refresh tokens.
+Added middleware for protecting routes.
+
+Closes #45
+```
+
+```
+fix: resolve memory leak in data processor
+
+The data processor was not properly cleaning up listeners,
+causing memory to increase over time. Added cleanup in
+the destroy method.
+
+Fixes #78
+```

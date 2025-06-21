@@ -1,0 +1,49 @@
+# Pre-push Hook Rules
+
+## Branch Protection
+- Prevent direct pushes to main/master branch
+- Require pull requests for protected branches
+- Ensure branch naming conventions are followed
+- Check for up-to-date branch with remote
+
+## Code Quality Gates
+- All tests must pass
+- Code coverage must meet minimum threshold (80%)
+- No linting errors allowed
+- Build must complete successfully
+
+## Security Validation
+- Run security vulnerability scan
+- Check for exposed secrets one final time
+- Validate dependencies for known vulnerabilities
+- Ensure no sensitive files in commit history
+
+## CI/CD Checks
+- Verify CI configuration is valid
+- Check that all required CI checks are defined
+- Ensure deployment scripts are tested
+- Validate environment configurations
+
+## Large File Prevention
+- Block files larger than 100MB
+- Warn for files larger than 50MB
+- Check total repository size limits
+- Validate no binary artifacts in source
+
+## Commit Verification
+- Ensure commits are signed (if required)
+- Validate commit authors
+- Check for fixup/squash commits
+- Verify no merge commits (if using rebase workflow)
+
+## Documentation Requirements
+- Changelog must be updated for releases
+- API documentation must be current
+- README must reflect current state
+- Migration guides for breaking changes
+
+## Remote Validation
+- Check remote repository accessibility
+- Verify push permissions
+- Ensure remote branch exists
+- Validate no force push to protected branches
