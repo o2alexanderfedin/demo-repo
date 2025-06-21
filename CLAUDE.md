@@ -79,6 +79,56 @@ npm run build:prod  # Production build
 4. Submit a pull request
 5. Ensure all checks pass
 
+## GitFlow Integration
+
+This project uses GitFlow for branch management with Claude-aware hooks for better AI assistance.
+
+### GitFlow Commands
+```bash
+# Start a new feature
+git flow feature start <feature-name>
+
+# Finish a feature
+git flow feature finish <feature-name>
+
+# Start a release
+git flow release start <version>
+
+# Start a hotfix
+git flow hotfix start <version>
+```
+
+### Claude GitFlow Hooks
+
+#### Post-flow-feature-start Hook
+- **Location**: `.git/hooks/post-flow-feature-start`
+- **Purpose**: Creates environment status file for Claude
+- **Creates**: `.claude/gitflow-status.env` with feature information
+- **Action Required**: Update FEATURE_DESCRIPTION in the status file
+
+#### Post-commit Hook
+- **Location**: `.git/hooks/post-commit`
+- **Purpose**: Reminds Claude about active GitFlow branches
+- **Shows**: Current feature/release/hotfix status and suggests finishing
+
+#### Pre-push Hook  
+- **Location**: `.git/hooks/pre-push`
+- **Purpose**: Final reminder before pushing GitFlow branches
+- **Shows**: Comprehensive status and next steps
+
+### GitFlow Status File
+When working on a feature, the `.claude/gitflow-status.env` file contains:
+- `GITFLOW_ACTIVE`: Whether GitFlow is active
+- `GITFLOW_TYPE`: Branch type (feature/release/hotfix)
+- `GITFLOW_BRANCH`: Current branch name
+- `GITFLOW_FEATURE_NAME`: Feature name without prefix
+- `GITFLOW_STARTED_AT`: When the feature was started
+- `GITFLOW_STATUS`: Current status
+- `FEATURE_DESCRIPTION`: Description of the feature (update this!)
+- `GITFLOW_COMMIT_COUNT`: Number of commits on the branch
+- `GITFLOW_LAST_COMMIT`: Timestamp of last commit
+- `GITFLOW_LAST_PUSH`: Timestamp of last push
+
 ## Hook Installation
 
 To install the git hooks locally:

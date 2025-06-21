@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git flow:*)"
+      "Bash(git flow:*)",
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)"
     ],
     "deny": []
   }
