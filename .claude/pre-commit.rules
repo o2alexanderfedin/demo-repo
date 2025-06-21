@@ -1,11 +1,24 @@
 # Pre-commit Hook Rules
 
+## Code Principles Enforcement (SOLID, KISS, DRY, Clean Code)
+- Verify functions are under 20-30 lines (KISS)
+- Check for code duplication (DRY)
+- Ensure single responsibility per class/function (SOLID-S)
+- Validate meaningful variable and function names (Clean Code)
+- Check complexity metrics (cyclomatic complexity <10)
+- Ensure no deeply nested code (>3 levels)
+- Verify interfaces are segregated properly (SOLID-I)
+- Check for proper abstractions (SOLID-D)
+
 ## Code Quality Checks
 - Run linters for all modified files
 - Check for syntax errors in code files
 - Validate JSON and YAML files
 - Ensure no debugger statements in code
 - Check for console.log statements in production code
+- Detect code smells (long methods, large classes)
+- Check for magic numbers/strings
+- Validate consistent code formatting
 
 ## Security Checks
 - Scan for hardcoded credentials

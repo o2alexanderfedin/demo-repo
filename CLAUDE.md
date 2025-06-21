@@ -31,6 +31,50 @@ This project uses git hooks to maintain code quality and consistency. The hook r
   - Security and vulnerability scanning
   - Documentation requirements
 
+## Code Principles (SOLID, KISS, DRY, Clean Code)
+
+This project enforces SOLID, KISS, DRY, and Clean Code principles for all development activities.
+
+### Principle Files
+- **Code Principles**: `.claude/code-principles.rules` - Comprehensive guide to all principles
+- **Review Checklist**: `.claude/code-review-checklist.md` - Systematic review process
+- **Pre-commit Rules**: `.claude/pre-commit.rules` - Automated enforcement
+
+### Core Principles
+
+#### SOLID
+- **S**ingle Responsibility: One class, one purpose
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subclasses must be substitutable
+- **I**nterface Segregation: No unused interface methods
+- **D**ependency Inversion: Depend on abstractions
+
+#### KISS (Keep It Simple, Stupid)
+- Choose simplest working solution
+- Avoid premature optimization
+- Functions under 20-30 lines
+- No deeply nested code (>3 levels)
+- Clear over clever code
+
+#### DRY (Don't Repeat Yourself)
+- Extract common code
+- Use constants for repeated values
+- Create reusable components
+- Centralize configuration
+
+#### Clean Code
+- Meaningful names
+- Small, focused functions
+- Self-documenting code
+- Proper error handling
+- Consistent formatting
+
+### Enforcement
+- Pre-commit hooks check compliance
+- Code reviews use standardized checklist
+- Automated tools detect violations
+- All code must follow these principles
+
 ## Project Standards
 
 ### Code Quality
@@ -38,6 +82,7 @@ This project uses git hooks to maintain code quality and consistency. The hook r
 - Minimum test coverage: 80%
 - No console.log statements in production code
 - No hardcoded credentials or secrets
+- Must follow SOLID, KISS, DRY, Clean Code principles
 
 ### Git Workflow
 - Use conventional commits format
@@ -128,6 +173,31 @@ When working on a feature, the `.claude/gitflow-status.env` file contains:
 - `GITFLOW_COMMIT_COUNT`: Number of commits on the branch
 - `GITFLOW_LAST_COMMIT`: Timestamp of last commit
 - `GITFLOW_LAST_PUSH`: Timestamp of last push
+
+## Conversation Tracking
+
+All conversations with Claude are tracked in `.claude/conversations/` directory in a todo listicle format. This helps maintain project history and task continuity.
+
+### Conversation Log Structure
+- **Location**: `.claude/conversations/`
+- **Format**: `YYYY-MM-DD-session-NNN.md`
+- **Template**: `.claude/conversations/template.md`
+
+Each log contains:
+- Summary of conversation goals
+- Tasks completed with status tracking
+- Commands executed during session
+- Files modified with descriptions
+- Key decisions and reasoning
+- Follow-up items for future work
+- Additional notes and context
+
+### Benefits
+- Track project evolution over time
+- Reference past decisions and implementations
+- Maintain task continuity between sessions
+- Document command history for reproduction
+- Identify patterns and improvements
 
 ## Hook Installation
 

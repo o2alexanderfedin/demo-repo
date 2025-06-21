@@ -1,0 +1,241 @@
+# Task Completion Verification Rules
+
+## Overview
+These rules ensure thorough task completion verification before declaring any task as "done". This applies to all tasks, especially documentation generation, code implementation, and system configuration.
+
+## General Verification Checklist
+
+### 1. Task Completeness
+- [ ] All requested items have been created/implemented
+- [ ] No partial implementations left unfinished
+- [ ] All subtasks identified and completed
+- [ ] Edge cases considered and handled
+- [ ] No empty directories or placeholder files
+
+### 2. Documentation Specific Rules
+
+#### Structure Verification
+- [ ] All planned sections have corresponding files
+- [ ] No empty directories in documentation structure
+- [ ] Table of contents matches actual file structure
+- [ ] All navigation links are present in each file
+- [ ] README files exist for each major section
+
+#### Content Verification
+- [ ] Each document has complete content (no TODOs or placeholders)
+- [ ] All code examples are syntactically correct
+- [ ] Mermaid diagrams render properly
+- [ ] Technical accuracy verified against source material
+- [ ] Consistent formatting throughout all documents
+
+#### Link Verification
+- [ ] All internal links point to existing files
+- [ ] Navigation links (Home, Up, Previous, Next) are correct
+- [ ] Cross-references between documents are valid
+- [ ] No broken links or incorrect paths
+- [ ] Relative paths used consistently
+
+#### Reference Validation
+- [ ] All referenced classes/methods exist in codebase
+- [ ] File paths in examples are correct
+- [ ] Import statements are accurate
+- [ ] Version numbers and compatibility info current
+- [ ] External references (URLs) are valid
+
+## Verification Process
+
+### 1. Automated Checks
+```bash
+# Check for empty directories
+find <root> -type d -empty
+
+# Check for broken internal links
+grep -r "\[.*\](.*.md)" <docs_root> | # Extract all markdown links
+  # Verify each link points to existing file
+
+# Check for TODO/FIXME/placeholder text
+grep -r -i "todo\|fixme\|placeholder\|tbd" <docs_root>
+
+# Verify navigation consistency
+# Each file should have navigation header/footer
+grep -L "Navigation:" <docs_root>/*.md
+
+# Check for missing files from TOC
+# Compare index.md links with actual files
+```
+
+### 2. Manual Verification Steps
+
+#### Step 1: Structure Audit
+1. Compare planned structure with actual directories
+2. Verify no missing sections or files
+3. Check file naming consistency
+4. Ensure logical organization
+
+#### Step 2: Content Review
+1. Open each file and verify completeness
+2. Check for placeholder content
+3. Verify technical accuracy
+4. Ensure examples are working
+
+#### Step 3: Navigation Test
+1. Start from index/home page
+2. Follow all navigation links
+3. Verify bidirectional navigation works
+4. Test cross-references between sections
+
+#### Step 4: Reference Validation
+1. Verify code references against source
+2. Check import paths and package names
+3. Validate class/method signatures
+4. Confirm version compatibility
+
+## Completion Criteria
+
+### Documentation is Complete When:
+1. **100% File Coverage**: All planned files exist with full content
+2. **Zero Empty Directories**: No empty folders in structure
+3. **All Links Valid**: Every link points to existing content
+4. **Navigation Works**: Can navigate between all documents
+5. **References Accurate**: All code references are correct
+6. **No Placeholders**: No TODO, TBD, or placeholder text
+7. **Consistent Quality**: All documents meet quality standards
+
+### Code/Implementation is Complete When:
+1. **All Features Implemented**: No missing functionality
+2. **Tests Pass**: All tests written and passing
+3. **Documentation Updated**: Docs reflect implementation
+4. **Error Handling**: All error cases handled
+5. **Code Review Ready**: Follows all coding standards
+
+## Reporting Format
+
+### Completion Report Template
+```markdown
+## Task Completion Report
+
+### Task: [Task Name]
+**Date**: [Date]
+**Status**: [Complete/Incomplete]
+
+### Deliverables Checklist
+- [x] Item 1: Description (verified)
+- [x] Item 2: Description (verified)
+- [ ] Item 3: Description (pending)
+
+### Verification Results
+**Structure Check**: [Pass/Fail]
+- Total files expected: X
+- Total files created: Y
+- Empty directories: Z
+
+**Content Check**: [Pass/Fail]
+- Files with complete content: X/Y
+- Files with placeholders: List
+
+**Link Verification**: [Pass/Fail]
+- Total links: X
+- Broken links: Y
+- Details: [List broken links]
+
+**Reference Validation**: [Pass/Fail]
+- Code references verified: X/Y
+- Invalid references: [List]
+
+### Outstanding Issues
+1. Issue description
+2. Issue description
+
+### Conclusion
+[Summary of completion status and any remaining work]
+```
+
+## Common Pitfalls to Avoid
+
+### 1. Premature Completion
+- Declaring done without checking all files
+- Assuming structure means content is complete
+- Not testing navigation and links
+- Skipping reference validation
+
+### 2. Incomplete Verification
+- Only checking file existence, not content
+- Not following links to verify they work
+- Missing cross-reference validation
+- Ignoring empty directories
+
+### 3. Quality Issues
+- Accepting placeholder content
+- Not verifying technical accuracy
+- Inconsistent formatting/style
+- Missing error scenarios
+
+## Enforcement
+
+### When to Apply These Rules
+1. Before declaring any task complete
+2. After generating documentation sets
+3. Before committing/pushing changes
+4. During code review preparation
+5. At project milestones
+
+### Consequences of Skipping Verification
+- Incomplete deliverables
+- Broken user experience
+- Technical debt accumulation
+- Rework required later
+- Loss of credibility
+
+## Tools and Scripts
+
+### Verification Script Template
+```python
+#!/usr/bin/env python3
+"""Task completion verification script"""
+
+import os
+import re
+from pathlib import Path
+
+class TaskVerifier:
+    def __init__(self, root_path):
+        self.root = Path(root_path)
+        self.errors = []
+        self.warnings = []
+        
+    def verify_structure(self):
+        """Check directory structure completeness"""
+        # Implementation
+        
+    def verify_content(self):
+        """Check file content completeness"""
+        # Implementation
+        
+    def verify_links(self):
+        """Verify all links are valid"""
+        # Implementation
+        
+    def verify_references(self):
+        """Validate code references"""
+        # Implementation
+        
+    def generate_report(self):
+        """Generate completion report"""
+        # Implementation
+
+if __name__ == "__main__":
+    verifier = TaskVerifier("./docs")
+    verifier.run_all_checks()
+    verifier.generate_report()
+```
+
+## Summary
+
+**Never declare a task complete without:**
+1. Running all verification checks
+2. Fixing identified issues
+3. Generating completion report
+4. Confirming all criteria met
+5. Double-checking critical paths
+
+**Remember**: It's better to spend time verifying than to deliver incomplete work.
