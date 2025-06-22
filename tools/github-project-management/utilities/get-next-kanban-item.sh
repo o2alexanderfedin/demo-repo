@@ -8,7 +8,7 @@ set -euo pipefail
 
 # Configuration
 PROJECT_OWNER="o2alexanderfedin"
-PROJECT_NUMBER="1"
+PROJECT_NUMBER=12
 MAX_WIP=3
 
 # Colors for output
@@ -86,7 +86,7 @@ PROJECT_ID=$(gh api graphql -f query='
         id
       }
     }
-  }' -f owner="$PROJECT_OWNER" -f number="$PROJECT_NUMBER" --jq '.data.user.projectV2.id')
+  }' -f owner="$PROJECT_OWNER" -F number=$PROJECT_NUMBER --jq '.data.user.projectV2.id')
 
 # Get current WIP count
 echo -e "${BLUE}Checking current Work In Progress...${NC}"
