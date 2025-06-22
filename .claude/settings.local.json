@@ -129,7 +129,11 @@
       "Bash(git next:*)",
       "Bash(./tools/github-project-management/utilities/get-next-kanban-item.sh:*)",
       "Bash(gh project item-list:*)",
-      "Bash(./tools/github-project-management/utilities/get-next-kanban-item-simple.sh:*)"
+      "Bash(./tools/github-project-management/utilities/get-next-kanban-item-simple.sh:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(rg:*)",
+      "Bash(./tools/configure-auto-completion.sh:*)",
+      "Bash(./tools/github-project-management/utilities/get-next-kanban-item.sh:*)"
     ],
     "deny": []
   }
