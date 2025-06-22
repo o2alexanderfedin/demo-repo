@@ -116,6 +116,45 @@ npm run build     # Build the project
 npm run build:prod  # Production build
 ```
 
+### Kanban Workflow
+```bash
+# Get next work item based on Kanban rules
+./tools/github-project-management/utilities/get-next-kanban-item.sh
+
+# Auto-assign next item to "In Progress"
+./tools/github-project-management/utilities/get-next-kanban-item.sh --auto-assign
+
+# Check WIP limits
+./tools/github-project-management/utilities/check-wip-limits.sh
+
+# List blocked items
+./tools/github-project-management/utilities/list-blocked-items.sh
+```
+
+## Kanban Workflow Rules
+
+This project uses Kanban for work management. Key rules:
+
+### WIP Limits
+- **In Progress**: Maximum 3 items
+- **In Review**: Maximum 2 items  
+- **Testing**: Maximum 2 items
+
+### Pull Order
+1. Blocked items you can unblock
+2. Items blocking others
+3. Highest priority + story points
+4. Oldest ready items
+
+### Daily Flow
+1. Check blocked items
+2. Update current status
+3. Check WIP limits
+4. Pull next item if ready
+5. Complete work fast
+
+See `.claude/kanban-workflow.rules` for complete guidelines.
+
 ## Contributing
 
 1. Fork the repository
@@ -123,6 +162,182 @@ npm run build:prod  # Production build
 3. Make your changes following the hook rules
 4. Submit a pull request
 5. Ensure all checks pass
+
+## GitFlow + Kanban Workflow Integration
+
+This project **enforces** GitFlow for branch management combined with Kanban for work management, with comprehensive hooks that automate the entire workflow.
+
+### 🚨 MANDATORY: GitFlow Enforcement
+
+**All development MUST use GitFlow branches:**
+- Direct commits to `main` and `develop` are **BLOCKED**
+- Every feature MUST start with `git flow feature start`
+- Every feature MUST have a linked Kanban task
+- Task status is automatically managed (In Progress → Done)
+- Architecture docs are consulted when starting tasks
+- Completion reports are added to tasks when finishing
+
+### Workflow Hooks
+
+#### Installation
+```bash
+./tools/install-workflow-hooks.sh
+```
+
+#### Installed Hooks
+- **pre-commit**: Enforces GitFlow branches, blocks main/develop commits, checks task status
+- **post-commit**: Shows GitFlow status and Kanban reminders after commits
+- **pre-push**: Final checks and reminders before pushing
+- **post-push**: Monitors CI/CD after push and auto-fixes failures
+- **post-checkout**: Branch validation and context-aware guidance
+- **post-merge**: Dependency checks and next steps after merges
+- **prepare-commit-msg**: Adds context and templates to commit messages
+- **post-flow-feature-start**: Auto-links tasks, updates status to "In Progress"
+- **post-flow-feature-finish**: Updates task to "Done", archives statistics
+
+#### Git Aliases
+After installation, use these shortcuts:
+- `git workflow` - Complete workflow status dashboard
+- `git next` - Get next Kanban item to work on
+- `git wip` - Check current WIP limits
+- `git blocked` - List all blocked items
+- `git ci-fix` - Analyze and fix CI/CD failures
+- `git ci-monitor` - Real-time CI/CD monitoring
+- `git validate` - Check GitFlow compliance
+- `git task-status` - Update task status manually
+- `git feature-start` - Quick feature start
+- `git feature-finish` - Quick feature finish
+- `git arch` - Show architecture guidance
+- `git pr-status` - Check status of all open PRs
+- `git pr-merge` - Merge PR with squash and delete branch
+
+### Workflow Status Dashboard
+```bash
+./tools/show-workflow-status.sh
+# Or after installation: git workflow
+```
+
+Shows:
+- Current GitFlow branch and context
+- Kanban WIP status and limits
+- Blocked items count
+- Quick action commands
+- Git working directory status
+
+### Complete Workflow Example
+
+```bash
+# 1. Get next task from Kanban
+git next
+# Shows: "Issue #123: Implement user authentication"
+
+# 2. Start feature (auto-links task)
+git flow feature start user-authentication
+# ✅ Auto-linked task #123
+# ✅ Task status → "In Progress"
+# ✅ Architecture docs displayed
+# ✅ Start comment added to task
+
+# 3. Work on feature
+git add .
+git commit -m "feat: add login endpoint
+
+Refs #123"
+# ✅ Pre-commit validates GitFlow branch
+# ✅ Tracks time and commits
+
+# 4. Push (PR created automatically)
+git push -u origin feature/user-authentication
+# ✅ PR created with task reference
+# ✅ Linked to task #123
+# ✅ CI/CD monitoring starts
+
+# 5. Review and merge PR
+git pr-status
+# Shows PR status and required actions
+gh pr merge <number> --squash
+# ✅ Merges PR to develop
+
+# 6. Finish feature
+git flow feature finish user-authentication
+# ✅ Cleans up feature branch
+# ✅ Task #123 → "Done"
+# ✅ Completion report added to task
+# ✅ Archives feature stats
+
+# 7. Get next task (only allowed with no open PRs)
+git next
+# ✅ Checks for open PRs first
+# ✅ Shows next available task
+```
+
+### Workflow Rules
+
+See `.claude/gitflow-kanban-rules.md` for complete rules and enforcement details.
+
+### Architecture & Code Quality
+
+#### Automatic Architecture Guidance
+When starting work on a task:
+- Relevant documentation is automatically found and displayed
+- Architecture references are saved to `.claude/task-<number>-arch-refs.md`
+- SOLID, KISS, DRY, and Clean Code principles are shown
+- Task-specific patterns and guidelines are provided
+
+Use `git arch` to view architecture guidance anytime.
+
+#### Enforced Principles
+Every feature MUST follow:
+- **SOLID** - Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+- **KISS** - Keep It Simple, Stupid
+- **DRY** - Don't Repeat Yourself
+- **Clean Code** - Meaningful names, small functions, proper error handling
+
+#### Completion Reports
+When finishing a feature, a detailed report is automatically added to the task:
+- Work summary with duration and statistics
+- List of files changed and commits made
+- Linked pull requests
+- Implementation notes
+- Next steps and recommendations
+
+### CI/CD Integration
+
+#### Automatic CI/CD Monitoring
+The post-push hook automatically:
+1. Monitors GitHub Actions after each push
+2. Waits for CI/CD completion
+3. Analyzes failures if any occur
+4. Attempts automatic fixes for common issues:
+   - Linting errors (ESLint, Prettier)
+   - Missing dependencies
+   - Security vulnerabilities
+   - Markdown formatting
+5. Creates fix branches and PRs if needed
+
+#### Manual CI/CD Commands
+```bash
+# Analyze and fix recent failures
+./tools/github-project-management/utilities/fix-ci-failures.sh --auto-fix
+
+# Create PR with fixes
+./tools/github-project-management/utilities/fix-ci-failures.sh --auto-fix --create-pr
+
+# Monitor CI in real-time
+./tools/github-project-management/utilities/monitor-ci-realtime.sh
+
+# Or use git aliases
+git ci-fix --auto-fix
+git ci-monitor
+```
+
+#### Supported Auto-Fixes
+- **Linting**: ESLint, Prettier, Black, isort
+- **Dependencies**: npm/yarn install, pip install
+- **Security**: npm/yarn audit fix
+- **Formatting**: Markdown linting
+- **TypeScript**: Type definition suggestions
+- **Docker**: Build error analysis
 
 ## GitFlow Integration
 
