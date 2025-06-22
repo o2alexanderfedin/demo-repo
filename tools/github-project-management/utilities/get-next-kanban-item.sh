@@ -109,11 +109,30 @@ if [ "${1:-}" = "--auto-assign" ]; then
     echo "$ITEM_NUMBER" > .claude/current-task.txt
     echo "Task #$ITEM_NUMBER: $ITEM_TITLE" > ".claude/feature-task-$ITEM_NUMBER.env"
     
+    # Assign the issue to current user
+    echo -e "\n${BLUE}Assigning issue to you...${NC}"
+    gh issue edit "$ITEM_NUMBER" --repo "$PROJECT_OWNER/telethon-architecture-docs" --add-assignee "$CURRENT_USER"
+    
+    # Update task status to In Progress
+    echo -e "${BLUE}Updating task status to In Progress...${NC}"
+    
+    # Get the project item ID
+    ITEM_ID=$(echo "$ITEMS_JSON" | jq -r --arg num "$ITEM_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .id')
+    
+    if [ -n "$ITEM_ID" ] && [ "$ITEM_ID" != "null" ]; then
+        # Use the update-task-status.sh script
+        ./tools/github-project-management/utilities/update-task-status.sh "$ITEM_NUMBER" "In Progress"
+    else
+        echo -e "${YELLOW}Warning: Could not find project item ID for status update${NC}"
+    fi
+    
     # Start GitFlow feature
     git flow feature start "$FEATURE_NAME"
     
     echo -e "\n${GREEN}✅ Task assigned and feature branch created!${NC}"
     echo -e "You are now working on: ${BLUE}#$ITEM_NUMBER - $ITEM_TITLE${NC}"
+    echo -e "Issue assigned to: ${GREEN}$CURRENT_USER${NC}"
+    echo -e "Status updated to: ${GREEN}In Progress${NC}"
 else
     echo -e "\n${YELLOW}To assign this task and start working:${NC}"
     echo -e "  ${GREEN}$0 --auto-assign${NC}"
