@@ -264,7 +264,8 @@ NEXT_ITEM=$(gh api graphql -f query='
   }' -f projectId="$PROJECT_ID" --jq '
   .data.node.items.nodes[] |
   select(
-    (.fieldValues.nodes[] | select(.field.name == "Status" and .name == "Todo")) and
+    ((.fieldValues.nodes[] | select(.field.name == "Status" and .name == "Todo")) or 
+     (.fieldValues.nodes | map(select(.field.name == "Status")) | length == 0)) and
     ((.fieldValues.nodes[] | select(.field.name == "Dependency Status" and (.name == "Ready" or .name == "Partial"))) or 
      (.fieldValues.nodes | map(select(.field.name == "Dependency Status")) | length == 0))
   ) |
@@ -272,14 +273,14 @@ NEXT_ITEM=$(gh api graphql -f query='
     id: .id,
     number: .content.number,
     title: .content.title,
-    body: .content.body,
-    type: (.content.labels.nodes[] | select(.name | test("Type:")) | .name),
-    priority: (.content.labels.nodes[] | select(.name | test("Priority:")) | .name),
-    points: (.fieldValues.nodes[] | select(.field.name == "Story Points") | .number)
-  }' | jq -s 'sort_by(.priority // "Priority: Medium", .points // 0) | reverse | first')
+    body: (.content.body // ""),
+    type: ((.content.labels.nodes[] | select(.name | test("Type:")) | .name) // "Task"),
+    priority: ((.content.labels.nodes[] | select(.name | test("Priority:")) | .name) // "Medium"),
+    points: ((.fieldValues.nodes[] | select(.field.name == "Story Points") | .number) // 0)
+  }' | jq -s 'if length > 0 then sort_by(.priority // "Priority: Medium", .points // 0) | reverse | first else null end')
 
 if [ -z "$NEXT_ITEM" ] || [ "$NEXT_ITEM" = "null" ]; then
-    echo -e "${YELLOW}No available items found in Todo status with satisfied dependencies.${NC}"
+    echo -e "${YELLOW}No available items found in Todo status (or with no status) with satisfied dependencies.${NC}"
     echo -e "\nSuggestions:"
     echo -e "  1. Check if there are items in 'Ready' status"
     echo -e "  2. Review blocked items to see if any can be unblocked"
