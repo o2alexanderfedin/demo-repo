@@ -167,6 +167,15 @@ See `.claude/kanban-workflow.rules` for complete guidelines.
 
 This project **enforces** GitFlow for branch management combined with Kanban for work management, with comprehensive hooks that automate the entire workflow.
 
+### 🚨 CRITICAL: Task Assignment Requirements
+
+**ALL development work MUST have:**
+1. A GitHub issue/task assigned to you
+2. Task status set to "In Progress" in the project board
+3. Feature branch linked to the task
+
+**The pre-commit hook will BLOCK commits if these requirements are not met!**
+
 ### 🚨 MANDATORY: GitFlow Enforcement
 
 **All development MUST use GitFlow branches:**

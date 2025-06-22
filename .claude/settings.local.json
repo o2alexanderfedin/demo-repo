@@ -125,7 +125,11 @@
       "Bash(diff:*)",
       "Bash(./.project-tools/install.sh:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git next:*)",
+      "Bash(./tools/github-project-management/utilities/get-next-kanban-item.sh:*)",
+      "Bash(gh project item-list:*)",
+      "Bash(./tools/github-project-management/utilities/get-next-kanban-item-simple.sh:*)"
     ],
     "deny": []
   }

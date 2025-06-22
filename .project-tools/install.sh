@@ -30,6 +30,18 @@ echo -e "\n${YELLOW}1. Installing Git Hooks...${NC}"
 for hook in "$TOOLS_DIR"/hooks/*; do
     if [ -f "$hook" ]; then
         hook_name=$(basename "$hook")
+        
+        # Use enforced version if available
+        if [[ "$hook_name" == "post-flow-feature-start" ]] && [ -f "$TOOLS_DIR/hooks/post-flow-feature-start-enforced" ]; then
+            hook="$TOOLS_DIR/hooks/post-flow-feature-start-enforced"
+            echo -e "  Using enforced version of $hook_name"
+        fi
+        
+        # Skip files ending in -enforced (they're alternatives, not hooks)
+        if [[ "$hook_name" == *"-enforced" ]]; then
+            continue
+        fi
+        
         target="$HOOKS_DIR/$hook_name"
         
         # Backup existing hook

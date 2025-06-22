@@ -1,0 +1,161 @@
+# Task Workflow Rules
+
+## Overview
+This document defines the mandatory workflow for working on tasks. These rules are enforced by Git hooks to ensure proper task tracking and project management.
+
+## Core Principles
+
+### 1. No Work Without a Task
+- **EVERY** piece of work must be linked to a GitHub issue/task
+- Tasks must be from the project board
+- No "quick fixes" or undocumented work
+
+### 2. Task Assignment Before Work
+- Tasks MUST be assigned to you before starting work
+- Self-assignment is allowed through `git next --auto-assign`
+- Assignment creates accountability and prevents duplicate work
+
+### 3. Status Tracking
+- Tasks MUST be in "In Progress" status when work begins
+- Status changes are automatic with proper workflow
+- Status reflects actual work state
+
+## Workflow Steps
+
+### Step 1: Get a Task
+```bash
+# Recommended: Auto-assign next available task
+git next --auto-assign
+
+# Alternative: Manually select a task
+gh issue list --repo o2alexanderfedin/telethon-architecture-docs
+```
+
+### Step 2: Verify Task Setup
+Before any commits, the system verifies:
+- ✅ Task is assigned to you
+- ✅ Task status is "In Progress"
+- ✅ Feature branch is linked to task
+
+### Step 3: Work on Task
+- Make changes on the feature branch
+- Commit regularly with meaningful messages
+- Reference the task number in commits
+
+### Step 4: Complete Task
+```bash
+# Finish feature and update task status
+git flow feature finish <feature-name>
+```
+
+## Enforcement
+
+### Pre-commit Hook
+Blocks commits if:
+- No task is linked to the feature branch
+- Task is not assigned to current user
+- Task is not in "In Progress" status
+
+### Error Messages
+The hook provides clear guidance:
+- What's wrong
+- Why it matters
+- How to fix it
+
+## Common Scenarios
+
+### Starting Fresh Work
+```bash
+# This creates everything automatically:
+git next --auto-assign
+# - Finds available task
+# - Assigns to you
+# - Updates status to "In Progress"
+# - Creates feature branch
+# - Links task to branch
+```
+
+### Resuming Work
+```bash
+# If returning to existing feature:
+git checkout feature/my-feature
+# Hook will verify task is still valid
+```
+
+### Multiple Tasks
+- Work on ONE task at a time
+- Complete or stash current work before starting new task
+- WIP limits are enforced
+
+## Benefits
+
+1. **Traceability**: Every commit linked to a task
+2. **No Orphan Work**: All work is planned and tracked
+3. **Clear Ownership**: Tasks are assigned before work
+4. **Status Accuracy**: Project board reflects reality
+5. **Prevents Conflicts**: No duplicate work on same task
+
+## Exceptions
+
+### Emergency Hotfixes
+```bash
+git flow hotfix start <version>
+# Hotfixes bypass task requirements
+# But should still be documented afterward
+```
+
+### Documentation Updates
+- README changes may not need tasks
+- But significant docs should have tasks
+
+## Best Practices
+
+1. **One Task, One Feature**: Keep features focused
+2. **Regular Commits**: Commit often with good messages
+3. **Update Status**: If blocked, update task status
+4. **Communicate**: Add comments to tasks for clarity
+
+## Configuration
+
+### Project Settings
+Located in `.claude/workflow-config.env`:
+```bash
+PROJECT_OWNER=o2alexanderfedin
+PROJECT_NUMBER=12
+```
+
+### Task Linking
+Task info stored in:
+- `.claude/current-task.txt` - Current task number
+- `.claude/feature-task-*.env` - Task details
+
+## Troubleshooting
+
+### "Task not assigned" Error
+```bash
+# Fix: Assign the task
+gh issue edit <number> --add-assignee @me
+```
+
+### "Task not in progress" Error
+```bash
+# Fix: Update status
+./tools/github-project-management/utilities/update-task-status-simple.sh <number> "In Progress"
+```
+
+### "No task linked" Error
+```bash
+# Fix: Get a new task
+git next --auto-assign
+# Or link existing task
+echo '<task-number>' > .claude/current-task.txt
+```
+
+## Summary
+
+**Remember**: No commits without a task that is:
+1. Assigned to you
+2. In "In Progress" status
+3. Linked to your feature branch
+
+This ensures all work is tracked, planned, and accountable.
