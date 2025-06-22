@@ -165,7 +165,7 @@ See `.claude/kanban-workflow.rules` for complete guidelines.
 
 ## GitFlow + Kanban Workflow Integration
 
-This project **enforces** GitFlow for branch management combined with Kanban for work management, with comprehensive hooks that automate the entire workflow.
+This project **enforces** GitFlow for branch management combined with Kanban for work management, with comprehensive hooks that automate the entire workflow, including **automatic task completion** on successful pushes.
 
 ### 🚨 CRITICAL: Task Assignment Requirements
 
@@ -197,7 +197,7 @@ This project **enforces** GitFlow for branch management combined with Kanban for
 - **pre-commit**: Enforces GitFlow branches, blocks main/develop commits, checks task status
 - **post-commit**: Shows GitFlow status and Kanban reminders after commits
 - **pre-push**: Final checks and reminders before pushing
-- **post-push**: Monitors CI/CD after push and auto-fixes failures
+- **post-push**: Auto-completes tasks on successful pushes, monitors CI/CD, and auto-fixes failures
 - **post-checkout**: Branch validation and context-aware guidance
 - **post-merge**: Dependency checks and next steps after merges
 - **prepare-commit-msg**: Adds context and templates to commit messages
@@ -347,6 +347,67 @@ git ci-monitor
 - **Formatting**: Markdown linting
 - **TypeScript**: Type definition suggestions
 - **Docker**: Build error analysis
+
+## Automatic Task Completion
+
+This project includes **intelligent task auto-completion** that automatically moves project tasks to "Done" status when work is successfully pushed.
+
+### 🎯 Auto-Completion Rules
+
+**Tasks are automatically completed when:**
+1. ✅ Task is in "In Progress" status
+2. ✅ Push is to a feature branch (`feature/*`)
+3. ✅ Feature branch has ≥1 commits compared to develop
+4. ✅ Feature branch has ≥1 files changed
+5. ✅ Push completes successfully
+6. ✅ (Optional) CI/CD checks pass
+
+### 🔧 Configuration Commands
+
+```bash
+# Configure auto-completion settings
+./tools/configure-auto-completion.sh
+
+# View current configuration
+grep "AUTO_" .claude/auto-completion.rules
+
+# Test auto-completion setup
+./tools/configure-auto-completion.sh
+# → Choose option 5: Test configuration
+```
+
+### ⚙️ Customization Options
+
+**Auto-completion can be configured for:**
+- Minimum commits required (`MIN_FEATURE_COMMITS`)
+- Minimum files changed (`MIN_CHANGED_FILES`)
+- Required task status (`REQUIRED_TASK_STATUS`)
+- Allowed branches (`ALLOWED_BRANCHES`)
+- Wait for CI success (`AUTO_COMPLETE_ON_CI_SUCCESS`)
+- Add completion comments (`ADD_COMPLETION_COMMENT`)
+
+### 🔒 Disable Auto-Completion
+
+```bash
+# Globally disable
+echo "AUTO_COMPLETION_ENABLED=false" >> .claude/auto-completion.rules
+
+# Disable for specific task (add label to GitHub issue)
+gh issue edit <task-number> --add-label "manual-completion"
+
+# Disable for current push only
+git push --no-verify
+```
+
+### 📊 Auto-Completion Statistics
+
+```bash
+# View auto-completion log
+cat .claude/auto-completion.log
+
+# View last auto-completed tasks
+tail -5 .claude/auto-completion.log
+```
 
 ## GitFlow Integration
 

@@ -1,0 +1,165 @@
+# GitFlow + Kanban Auto-Completion Rules
+#
+# This file defines when and how project tasks are automatically 
+# moved to "Done" status based on git operations and CI/CD results.
+
+# =============================================================================
+# AUTO-COMPLETION TRIGGERS
+# =============================================================================
+
+# 1. POST-PUSH AUTO-COMPLETION
+# Triggered: After successful git push
+# Conditions:
+#   - Task status must be "In Progress"  
+#   - Must be pushing to a feature branch (feature/*)
+#   - Feature branch must have ≥1 commits compared to develop
+#   - Feature branch must have ≥1 file changed
+#   - Push must complete successfully
+
+AUTO_COMPLETE_ON_PUSH=true
+MIN_FEATURE_COMMITS=1
+MIN_CHANGED_FILES=1
+REQUIRED_TASK_STATUS="In Progress"
+ALLOWED_BRANCHES="feature/*"
+
+# 2. CI/CD SUCCESS AUTO-COMPLETION  
+# Triggered: After all CI/CD checks pass
+# Conditions:
+#   - All previous post-push conditions met
+#   - All CI/CD workflows complete successfully
+#   - No failing checks
+
+AUTO_COMPLETE_ON_CI_SUCCESS=true
+WAIT_FOR_CI=true
+CI_TIMEOUT_MINUTES=5
+
+# 3. GITFLOW FEATURE FINISH AUTO-COMPLETION
+# Triggered: When running `git flow feature finish`
+# Conditions:
+#   - Always auto-complete linked tasks
+#   - Generates completion report
+#   - Archives feature statistics
+
+AUTO_COMPLETE_ON_FEATURE_FINISH=true
+
+# =============================================================================
+# AUTO-COMPLETION BEHAVIORS
+# =============================================================================
+
+# Comment on task when auto-completed
+ADD_COMPLETION_COMMENT=true
+
+# Include push/commit details in comment
+INCLUDE_PUSH_DETAILS=true
+
+# Track auto-completion statistics
+TRACK_STATISTICS=true
+
+# Log auto-completion events
+LOG_AUTO_COMPLETION=true
+LOG_FILE=".claude/auto-completion.log"
+
+# Play completion sound (if available)
+PLAY_COMPLETION_SOUND=true
+
+# =============================================================================
+# EXCLUSIONS AND OVERRIDES
+# =============================================================================
+
+# Branches to exclude from auto-completion
+EXCLUDED_BRANCHES="main,master,develop,release/*,hotfix/*"
+
+# Task labels that prevent auto-completion
+EXCLUDED_TASK_LABELS="manual-completion,review-required,draft"
+
+# File patterns that don't count as "meaningful changes"
+EXCLUDED_FILE_PATTERNS="*.md,*.txt,CHANGELOG*,README*,.gitignore"
+
+# Minimum file changes (excluding patterns above)
+MIN_MEANINGFUL_CHANGES=1
+
+# =============================================================================
+# INTEGRATION SETTINGS
+# =============================================================================
+
+# GitHub CLI required for auto-completion
+REQUIRE_GITHUB_CLI=true
+
+# Project board configuration
+PROJECT_OWNER_AUTO_DETECT=true
+PROJECT_NUMBER_AUTO_DETECT=true
+
+# Kanban status field name
+STATUS_FIELD_NAME="Status"
+COMPLETION_STATUS="Done"
+
+# =============================================================================
+# NOTIFICATIONS
+# =============================================================================
+
+# Show detailed completion info
+VERBOSE_OUTPUT=true
+
+# Color output
+USE_COLORS=true
+
+# Show completion summary
+SHOW_COMPLETION_SUMMARY=true
+
+# =============================================================================
+# ADVANCED RULES
+# =============================================================================
+
+# Auto-complete only if tests pass (requires test detection)
+REQUIRE_TESTS_PASS=false
+
+# Auto-complete only if no TODOs/FIXMEs added
+BLOCK_ON_NEW_TODOS=false
+
+# Auto-complete only if code coverage maintained
+REQUIRE_COVERAGE_MAINTAINED=false
+
+# Auto-complete only if no security vulnerabilities
+BLOCK_ON_SECURITY_ISSUES=false
+
+# =============================================================================
+# ROLLBACK SETTINGS
+# =============================================================================
+
+# Allow manual rollback of auto-completed tasks
+ALLOW_ROLLBACK=true
+
+# Track rollback events
+TRACK_ROLLBACKS=true
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+
+# Enable/disable entire auto-completion system
+AUTO_COMPLETION_ENABLED=true
+
+# Enable experimental features
+EXPERIMENTAL_FEATURES=false
+
+# Debug mode (verbose logging)
+DEBUG_MODE=false
+
+# =============================================================================
+# EXAMPLES OF USAGE
+# =============================================================================
+
+# To disable auto-completion for a specific task:
+# Add label "manual-completion" to the GitHub issue
+
+# To temporarily disable auto-completion:
+# Set AUTO_COMPLETION_ENABLED=false
+
+# To change completion criteria:
+# Modify MIN_FEATURE_COMMITS, MIN_CHANGED_FILES, etc.
+
+# To exclude certain file types:
+# Add patterns to EXCLUDED_FILE_PATTERNS
+
+# To require CI success:
+# Set AUTO_COMPLETE_ON_CI_SUCCESS=true and WAIT_FOR_CI=true
