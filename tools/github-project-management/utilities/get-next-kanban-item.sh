@@ -120,8 +120,8 @@ if [ "${1:-}" = "--auto-assign" ]; then
     ITEM_ID=$(echo "$ITEMS_JSON" | jq -r --arg num "$ITEM_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .id')
     
     if [ -n "$ITEM_ID" ] && [ "$ITEM_ID" != "null" ]; then
-        # Use the update-task-status.sh script
-        ./tools/github-project-management/utilities/update-task-status.sh "$ITEM_NUMBER" "In Progress"
+        # Use the update-task-status-simple.sh script
+        ./tools/github-project-management/utilities/update-task-status-simple.sh "$ITEM_NUMBER" "In Progress"
     else
         echo -e "${YELLOW}Warning: Could not find project item ID for status update${NC}"
     fi
