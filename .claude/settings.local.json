@@ -125,7 +125,15 @@
       "Bash(diff:*)",
       "Bash(./.project-tools/install.sh:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(./tools/github-project-management/utilities/update-task-status-simple.sh:*)",
+      "Bash(/Users/alexanderfedin/Projects/demo/tools/github-project-management/utilities/update-task-status.sh:*)",
+      "Bash(gh issue comment:*)",
+      "Bash(pip3 install:*)",
+      "Bash(./tools/github-project-management/utilities/check-wip-limits.sh:*)",
+      "Bash(./tools/github-project-management/utilities/update-task-status.sh:*)",
+      "Bash(PROJECT_NUMBER=12 ./tools/github-project-management/utilities/update-task-status.sh 72 \"Done\")",
+      "Bash(gh project item-list:*)"
     ],
     "deny": []
   }
