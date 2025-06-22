@@ -123,7 +123,9 @@
       "Bash(tree:*)",
       "Bash(true)",
       "Bash(diff:*)",
-      "Bash(./.project-tools/install.sh:*)"
+      "Bash(./.project-tools/install.sh:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ],
     "deny": []
   }
