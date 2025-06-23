@@ -2,6 +2,9 @@
 
 # Simplified version of get-next-kanban-item.sh that actually works
 # This version uses simpler queries and project item-list command
+#
+# RULE: Always use shell scripts for GitHub project operations
+# This ensures consistency and maintainability across the workflow
 
 set -euo pipefail
 
@@ -51,11 +54,11 @@ fi
 
 echo -e "\n${BLUE}Finding next available work item...${NC}"
 
-# Find User Story items that have no status or Todo status
+# Find Task items that have no status or Todo status
 NEXT_ITEM=$(echo "$ITEMS_JSON" | jq -r '
   .items[] | 
   select(
-    .type == "User Story" and 
+    .type == "Task" and 
     (.status == null or .status == "" or .status == "Todo")
   ) | 
   {
@@ -65,7 +68,7 @@ NEXT_ITEM=$(echo "$ITEMS_JSON" | jq -r '
   }' | jq -s 'if length > 0 then .[0] else null end')
 
 if [ "$NEXT_ITEM" = "null" ] || [ -z "$NEXT_ITEM" ]; then
-    echo -e "${YELLOW}No available User Story items found.${NC}"
+    echo -e "${YELLOW}No available Task items found.${NC}"
     
     # Show some stats
     echo -e "\n${BLUE}Project Statistics:${NC}"
@@ -109,10 +112,14 @@ if [ "${1:-}" = "--auto-assign" ]; then
     echo "$ITEM_NUMBER" > .claude/current-task.txt
     echo "Task #$ITEM_NUMBER: $ITEM_TITLE" > ".claude/feature-task-$ITEM_NUMBER.env"
     
+    # Update task status to In Progress
+    echo -e "Updating task status to 'In Progress'..."
+    /Users/alexanderfedin/Projects/demo/tools/github-project-management/utilities/update-task-status-simple.sh "$ITEM_NUMBER" "In Progress"
+    
     # Start GitFlow feature
     git flow feature start "$FEATURE_NAME"
     
-    echo -e "\n${GREEN}✅ Task assigned and feature branch created!${NC}"
+    echo -e "\n${GREEN}✅ Task assigned, status updated, and feature branch created!${NC}"
     echo -e "You are now working on: ${BLUE}#$ITEM_NUMBER - $ITEM_TITLE${NC}"
 else
     echo -e "\n${YELLOW}To assign this task and start working:${NC}"

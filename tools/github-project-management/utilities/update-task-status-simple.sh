@@ -29,8 +29,21 @@ ITEM_ID=$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --form
   jq -r --arg num "$ISSUE_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .id')
 
 if [ -z "$ITEM_ID" ] || [ "$ITEM_ID" = "null" ]; then
-    echo -e "${RED}Error: Could not find project item for issue #$ISSUE_NUMBER${NC}"
-    exit 1
+    echo -e "${YELLOW}Issue #$ISSUE_NUMBER not in project. Adding it now...${NC}"
+    
+    # Add issue to project
+    gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "https://github.com/$PROJECT_OWNER/$REPO/issues/$ISSUE_NUMBER"
+    
+    # Get the item ID again
+    sleep 2  # Give it a moment to process
+    ITEM_ID=$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json | \
+      jq -r --arg num "$ISSUE_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .id')
+    
+    if [ -z "$ITEM_ID" ] || [ "$ITEM_ID" = "null" ]; then
+        echo -e "${RED}Error: Failed to add issue to project${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}✅ Added issue to project${NC}"
 fi
 
 echo -e "${BLUE}Found project item: $ITEM_ID${NC}"
