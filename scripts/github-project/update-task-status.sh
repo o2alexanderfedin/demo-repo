@@ -12,7 +12,7 @@ NEW_STATUS=$2
 
 # Configuration
 PROJECT_OWNER="o2alexanderfedin"
-PROJECT_NUMBER="1"
+PROJECT_NUMBER="12"
 
 # Colors
 GREEN='\033[0;32m'
