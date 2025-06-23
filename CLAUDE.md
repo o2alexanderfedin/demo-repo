@@ -119,16 +119,16 @@ npm run build:prod  # Production build
 ### Kanban Workflow
 ```bash
 # Get next work item based on Kanban rules
-./tools/github-project-management/utilities/get-next-kanban-item.sh
+./scripts/github-project/get-next-kanban-item.sh
 
 # Auto-assign next item to "In Progress"
-./tools/github-project-management/utilities/get-next-kanban-item.sh --auto-assign
+./scripts/github-project/get-next-kanban-item.sh --auto-assign
 
 # Check WIP limits
-./tools/github-project-management/utilities/check-wip-limits.sh
+./scripts/github-project/check-wip-limits.sh
 
 # List blocked items
-./tools/github-project-management/utilities/list-blocked-items.sh
+./scripts/github-project/list-blocked-items.sh
 ```
 
 ## Kanban Workflow Rules
@@ -190,7 +190,7 @@ This project **enforces** GitFlow for branch management combined with Kanban for
 
 #### Installation
 ```bash
-./tools/install-workflow-hooks.sh
+./scripts/setup/install-workflow-hooks.sh
 ```
 
 #### Installed Hooks
@@ -222,7 +222,7 @@ After installation, use these shortcuts:
 
 ### Workflow Status Dashboard
 ```bash
-./tools/show-workflow-status.sh
+./scripts/workflow/show-workflow-status.sh
 # Or after installation: git workflow
 ```
 
@@ -327,13 +327,13 @@ The post-push hook automatically:
 #### Manual CI/CD Commands
 ```bash
 # Analyze and fix recent failures
-./tools/github-project-management/utilities/fix-ci-failures.sh --auto-fix
+./scripts/github-project/fix-ci-failures.sh --auto-fix
 
 # Create PR with fixes
-./tools/github-project-management/utilities/fix-ci-failures.sh --auto-fix --create-pr
+./scripts/github-project/fix-ci-failures.sh --auto-fix --create-pr
 
 # Monitor CI in real-time
-./tools/github-project-management/utilities/monitor-ci-realtime.sh
+./scripts/github-project/monitor-ci-realtime.sh
 
 # Or use git aliases
 git ci-fix --auto-fix
@@ -366,13 +366,13 @@ This project includes **intelligent task auto-completion** that automatically mo
 
 ```bash
 # Configure auto-completion settings
-./tools/configure-auto-completion.sh
+./scripts/setup/configure-auto-completion.sh
 
 # View current configuration
 grep "AUTO_" .claude/auto-completion.rules
 
 # Test auto-completion setup
-./tools/configure-auto-completion.sh
+./scripts/setup/configure-auto-completion.sh
 # → Choose option 5: Test configuration
 ```
 
