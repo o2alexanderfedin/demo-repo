@@ -155,6 +155,18 @@ This project uses Kanban for work management. Key rules:
 
 See `.claude/kanban-workflow.rules` for complete guidelines.
 
+## Project Structure
+
+### Main Project Root
+All configuration files, tools, and scripts are centralized in the main project root:
+- `.claude/` - Claude AI integration rules and workflow configuration
+- `.project-tools/` - Project tooling, hooks, and automation scripts
+- `scripts/` - All utility scripts organized by function
+- Linter configs - .editorconfig, .prettierrc, .markdownlint.json, etc.
+
+### Workspace Projects
+Workspace projects (like `workspace/telethon-architecture-docs/`) contain only their specific documentation and code, without duplicating configuration files.
+
 ## Contributing
 
 1. Fork the repository
