@@ -1,0 +1,53 @@
+<svg width="700" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="250" fill="#ffffff"/>
+  <text x="350" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">Code Quality Over Time</text>
+  
+  <!-- Hour 1 -->
+  <rect x="50" y="70" width="90" height="80" rx="5" fill="#f3f4f6" stroke="#6b7280"/>
+  <text x="95" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Hour 1</text>
+  <text x="95" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="95" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 100%</text>
+  
+  <!-- Hour 4 -->
+  <rect x="160" y="70" width="90" height="80" rx="5" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="205" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Hour 4</text>
+  <text x="205" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="205" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 95%</text>
+  
+  <!-- Hour 8 -->
+  <rect x="270" y="70" width="90" height="80" rx="5" fill="#fed7aa" stroke="#ea580c"/>
+  <text x="315" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Hour 8</text>
+  <text x="315" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="315" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 85%</text>
+  
+  <!-- Day 2 -->
+  <rect x="380" y="70" width="90" height="80" rx="5" fill="#fdba74" stroke="#ea580c"/>
+  <text x="425" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Day 2</text>
+  <text x="425" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="425" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 90%</text>
+  
+  <!-- Week 2 -->
+  <rect x="490" y="70" width="90" height="80" rx="5" fill="#fb923c" stroke="#ea580c"/>
+  <text x="535" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Week 2</text>
+  <text x="535" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="535" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 85%</text>
+  
+  <!-- Month 2 -->
+  <rect x="600" y="70" width="90" height="80" rx="5" fill="#f97316" stroke="#ea580c"/>
+  <text x="645" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">Month 2</text>
+  <text x="645" y="115" text-anchor="middle" font-size="11" fill="#000">AI: 100%</text>
+  <text x="645" y="130" text-anchor="middle" font-size="11" fill="#000">Human: 80%</text>
+  
+  <!-- Arrows -->
+  <path d="M 140 110 L 160 110" stroke="#666" stroke-width="2" marker-end="url(#arrow3)"/>
+  <path d="M 250 110 L 270 110" stroke="#666" stroke-width="2" marker-end="url(#arrow3)"/>
+  <path d="M 360 110 L 380 110" stroke="#666" stroke-width="2" marker-end="url(#arrow3)"/>
+  <path d="M 470 110 L 490 110" stroke="#666" stroke-width="2" marker-end="url(#arrow3)"/>
+  <path d="M 580 110 L 600 110" stroke="#666" stroke-width="2" marker-end="url(#arrow3)"/>
+  
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+</svg>
