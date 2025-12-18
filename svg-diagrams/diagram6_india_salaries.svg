@@ -1,0 +1,24 @@
+<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="300" fill="#ffffff"/>
+  <text x="250" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">Annual Salaries in India (USD)</text>
+  
+  <!-- Bangalore -->
+  <rect x="50" y="60" width="180" height="60" rx="8" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="140" y="85" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Bangalore</text>
+  <text x="140" y="105" text-anchor="middle" font-family="Arial" font-size="13" fill="#000">$8,000-$20,000</text>
+  
+  <!-- Mumbai -->
+  <rect x="270" y="60" width="180" height="60" rx="8" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="360" y="85" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Mumbai</text>
+  <text x="360" y="105" text-anchor="middle" font-family="Arial" font-size="13" fill="#000">$6,700-$16,000</text>
+  
+  <!-- Hyderabad -->
+  <rect x="50" y="140" width="180" height="60" rx="8" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="140" y="165" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Hyderabad</text>
+  <text x="140" y="185" text-anchor="middle" font-family="Arial" font-size="13" fill="#000">$6,000-$15,000</text>
+  
+  <!-- Delhi NCR -->
+  <rect x="270" y="140" width="180" height="60" rx="8" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="360" y="165" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Delhi NCR</text>
+  <text x="360" y="185" text-anchor="middle" font-family="Arial" font-size="13" fill="#000">$6,000-$14,000</text>
+</svg>

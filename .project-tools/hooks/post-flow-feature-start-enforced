@@ -1,0 +1,122 @@
+#!/bin/bash
+
+# Post-flow-feature-start hook: Enforces task workflow
+# This hook ensures that features are properly linked to tasks
+
+FEATURE_NAME=$1
+FEATURE_BRANCH="feature/$FEATURE_NAME"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+echo -e "\n${GREEN}✅ Feature branch created: ${YELLOW}$FEATURE_BRANCH${NC}"
+
+# Create .claude directory if it doesn't exist
+mkdir -p .claude
+
+# Check if there's a current task
+if [ -f ".claude/current-task.txt" ]; then
+    TASK_NUMBER=$(cat .claude/current-task.txt)
+    echo -e "${GREEN}✅ Feature linked to task #$TASK_NUMBER${NC}"
+else
+    echo -e "\n${RED}⚠️  WARNING: No task linked to this feature!${NC}"
+    echo -e "${YELLOW}Features should be linked to tasks for proper tracking.${NC}"
+    echo -e "\n${BLUE}To link a task:${NC}"
+    echo -e "  1. ${GREEN}git next --auto-assign${NC} - Get and assign next available task"
+    echo -e "  2. ${GREEN}echo 'TASK_NUMBER' > .claude/current-task.txt${NC} - Link existing task"
+    
+    # Ask user if they want to get a task now
+    echo -e "\n${YELLOW}Would you like to get a task now? (y/n)${NC}"
+    read -r response
+    
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        echo -e "${BLUE}Getting next available task...${NC}"
+        
+        # Run the get-next-kanban-item script
+        if [ -f "./tools/github-project-management/utilities/get-next-kanban-item.sh" ]; then
+            # Don't auto-assign immediately, just show available task
+            ./tools/github-project-management/utilities/get-next-kanban-item.sh
+            
+            echo -e "\n${YELLOW}To assign this task to the feature:${NC}"
+            echo -e "  ${GREEN}./tools/github-project-management/utilities/get-next-kanban-item.sh --auto-assign${NC}"
+            echo -e "\n${RED}Note: The pre-commit hook will block commits until a task is properly assigned.${NC}"
+        else
+            echo -e "${RED}Error: Kanban script not found${NC}"
+        fi
+    else
+        echo -e "\n${RED}⚠️  Remember: The pre-commit hook will block commits until a task is linked!${NC}"
+    fi
+fi
+
+# Create enhanced GitFlow status file
+cat > .claude/gitflow-status.env << EOF
+# GitFlow Feature Status
+GITFLOW_ACTIVE=true
+GITFLOW_TYPE=feature
+GITFLOW_BRANCH=$FEATURE_BRANCH
+GITFLOW_FEATURE_NAME=$FEATURE_NAME
+GITFLOW_STARTED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+GITFLOW_STATUS=in_progress
+FEATURE_DESCRIPTION="TODO: Add feature description"
+GITFLOW_COMMIT_COUNT=0
+GITFLOW_LAST_COMMIT=""
+GITFLOW_LAST_PUSH=""
+
+# Task Integration
+TASK_NUMBER=${TASK_NUMBER:-"NOT_SET"}
+TASK_WORKFLOW_ENFORCED=true
+EOF
+
+echo -e "${GREEN}✅ Created .claude/gitflow-status.env${NC}"
+
+# If task is linked, verify it's in correct state
+if [ -n "${TASK_NUMBER:-}" ] && [ "$TASK_NUMBER" != "NOT_SET" ]; then
+    echo -e "\n${BLUE}Verifying task #$TASK_NUMBER status...${NC}"
+    
+    # Configuration
+    PROJECT_OWNER="o2alexanderfedin"
+    PROJECT_NUMBER=12
+    REPO="telethon-architecture-docs"
+    
+    # Get current user
+    CURRENT_USER=$(gh api user --jq '.login' 2>/dev/null || echo "")
+    
+    if [ -n "$CURRENT_USER" ]; then
+        # Check if issue is assigned
+        ASSIGNEES=$(gh issue view "$TASK_NUMBER" --repo "$PROJECT_OWNER/$REPO" --json assignees --jq '.assignees[].login' 2>/dev/null)
+        
+        if ! echo "$ASSIGNEES" | grep -q "$CURRENT_USER"; then
+            echo -e "${YELLOW}⚠️  Task #$TASK_NUMBER is not assigned to you${NC}"
+            echo -e "Run: ${GREEN}gh issue edit $TASK_NUMBER --repo $PROJECT_OWNER/$REPO --add-assignee $CURRENT_USER${NC}"
+        fi
+        
+        # Check task status
+        TASK_STATUS=$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json 2>/dev/null | \
+            jq -r --arg num "$TASK_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .status // "No Status"')
+        
+        if [ "$TASK_STATUS" != "In Progress" ]; then
+            echo -e "${YELLOW}⚠️  Task #$TASK_NUMBER is not in 'In Progress' status (currently: $TASK_STATUS)${NC}"
+            echo -e "Run: ${GREEN}./tools/github-project-management/utilities/update-task-status-simple.sh $TASK_NUMBER \"In Progress\"${NC}"
+        else
+            echo -e "${GREEN}✅ Task #$TASK_NUMBER is in progress${NC}"
+        fi
+    fi
+fi
+
+# Show workflow reminder
+echo -e "\n${PURPLE}📋 Task Workflow Enforcement Active${NC}"
+echo -e "${BLUE}Before committing, ensure:${NC}"
+echo -e "  • Task is assigned to you"
+echo -e "  • Task status is 'In Progress'"
+echo -e "  • Feature is linked to task"
+echo -e "\n${YELLOW}The pre-commit hook will verify these requirements.${NC}"
+
+# Track feature creation
+echo "$FEATURE_NAME|$TASK_NUMBER|$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> .claude/features.log
+
+echo -e "\n${GREEN}Ready to work on $FEATURE_BRANCH! 🚀${NC}"

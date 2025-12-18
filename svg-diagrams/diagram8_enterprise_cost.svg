@@ -1,0 +1,41 @@
+<svg width="500" height="350" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="350" fill="#ffffff"/>
+  <text x="250" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f2937">Cost Distribution: Enterprise Development</text>
+  <text x="250" y="50" text-anchor="middle" font-size="14" fill="#6b7280">(Monthly cost for 1,000 user stories)</text>
+  
+  <!-- Pie Chart -->
+  <g transform="translate(250, 190)">
+    <!-- US Team (63.2%) -->
+    <path d="M 0,-100 A 100,100 0 1,1 -58.8,80.9 L 0,0 Z" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    
+    <!-- Eastern Europe (25.3%) -->
+    <path d="M -58.8,80.9 A 100,100 0 0,1 -95.1,-30.9 L 0,0 Z" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+    
+    <!-- India (7.6%) -->
+    <path d="M -95.1,-30.9 A 100,100 0 0,1 -80.9,-58.8 L 0,0 Z" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+    
+    <!-- AI Developer (2.8%) -->
+    <path d="M -80.9,-58.8 A 100,100 0 0,1 0,-100 L 0,0 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+    
+    <!-- Percentage labels -->
+    <text x="30" y="-30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f2937">63.2%</text>
+    <text x="-70" y="30" text-anchor="middle" font-size="12" fill="#1f2937">25.3%</text>
+    <text x="-70" y="-45" text-anchor="middle" font-size="11" fill="#1f2937">7.6%</text>
+    <text x="-20" y="-85" text-anchor="middle" font-size="10" fill="#1f2937">2.8%</text>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(30, 310)">
+    <rect x="0" y="0" width="15" height="12" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="20" y="10" font-size="12" fill="#1f2937">US: $208,330</text>
+    
+    <rect x="120" y="0" width="15" height="12" fill="#fed7aa" stroke="#ea580c"/>
+    <text x="140" y="10" font-size="12" fill="#1f2937">E. Europe: $83,330</text>
+    
+    <rect x="260" y="0" width="15" height="12" fill="#d1fae5" stroke="#059669"/>
+    <text x="280" y="10" font-size="12" fill="#1f2937">India: $25,000</text>
+    
+    <rect x="370" y="0" width="15" height="12" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="390" y="10" font-size="12" fill="#1f2937">AI: $9,090</text>
+  </g>
+</svg>

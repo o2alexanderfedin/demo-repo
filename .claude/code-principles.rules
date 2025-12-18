@@ -1,0 +1,162 @@
+# Code Principles Rules - SOLID, KISS, DRY, Clean Code
+
+## SOLID Principles
+
+### S - Single Responsibility Principle
+- Each class/module should have only one reason to change
+- Functions should do one thing and do it well
+- Avoid God classes/objects that know too much or do too much
+- Extract separate concerns into dedicated classes
+
+### O - Open/Closed Principle
+- Classes should be open for extension but closed for modification
+- Use interfaces and abstract classes for extensibility
+- Prefer composition over inheritance
+- Add new features by adding new code, not modifying existing
+
+### L - Liskov Substitution Principle
+- Derived classes must be substitutable for their base classes
+- Subclasses should not weaken preconditions or strengthen postconditions
+- Avoid throwing exceptions in overridden methods if base doesn't
+- Maintain consistent behavior across inheritance hierarchy
+
+### I - Interface Segregation Principle
+- Clients should not depend on interfaces they don't use
+- Prefer many specific interfaces over one general interface
+- Split large interfaces into smaller, focused ones
+- Avoid forcing implementations to have empty methods
+
+### D - Dependency Inversion Principle
+- Depend on abstractions, not concretions
+- High-level modules should not depend on low-level modules
+- Use dependency injection for flexibility
+- Program to interfaces, not implementations
+
+## KISS - Keep It Simple, Stupid
+
+### Rules
+- Choose the simplest solution that works
+- Avoid premature optimization
+- Write code that is easy to understand
+- Prefer clarity over cleverness
+- Remove unnecessary complexity
+- Use standard patterns and conventions
+
+### Red Flags
+- Methods longer than 20-30 lines
+- Deeply nested conditionals (>3 levels)
+- Complex boolean expressions
+- Overly clever one-liners
+- Unnecessary abstractions
+- Over-engineering simple problems
+
+## DRY - Don't Repeat Yourself
+
+### Implementation
+- Extract common code into functions/methods
+- Use constants for repeated values
+- Create reusable components
+- Centralize configuration
+- Share logic through inheritance or composition
+- Use templates and generics where appropriate
+
+### Exceptions to DRY
+- When abstraction would be more complex than duplication
+- Test code may duplicate some production code
+- Performance-critical sections may need optimized duplicates
+- Cross-boundary duplication (e.g., client/server validation)
+
+## Clean Code Principles
+
+### Naming Conventions
+- Use meaningful and pronounceable names
+- Make names searchable
+- Avoid mental mapping
+- Class names should be nouns
+- Method names should be verbs
+- Use consistent naming throughout codebase
+
+### Functions
+- Small and focused (ideally <20 lines)
+- Do one thing at one abstraction level
+- Have descriptive names
+- Limit parameters (ideally ≤3)
+- Have no side effects
+- Use early returns to reduce nesting
+
+### Comments
+- Code should be self-documenting
+- Use comments to explain "why", not "what"
+- Keep comments up-to-date with code
+- Remove commented-out code
+- Write meaningful commit messages
+- Document complex algorithms and business rules
+
+### Error Handling
+- Use exceptions rather than error codes
+- Create specific exception types
+- Don't return null (use Optional/Maybe)
+- Fail fast and fail clearly
+- Log errors with context
+- Handle errors at appropriate levels
+
+### Code Organization
+- Follow consistent project structure
+- Keep related functionality together
+- Separate concerns into layers
+- Use meaningful package/module names
+- Limit class size (<200 lines ideally)
+- Order members consistently (public first)
+
+### Testing
+- Write tests first (TDD when possible)
+- One assertion per test
+- Test names should describe what they test
+- Keep tests simple and focused
+- Maintain test coverage >80%
+- Tests should be independent
+
+## Enforcement Checklist
+
+### Before Writing Code
+- [ ] Is the requirement clear?
+- [ ] Have I considered the simplest solution?
+- [ ] Am I following existing patterns?
+- [ ] Will this integrate well with existing code?
+
+### While Writing Code
+- [ ] Am I keeping functions small and focused?
+- [ ] Are my names clear and meaningful?
+- [ ] Am I avoiding duplication?
+- [ ] Is each class doing one thing?
+- [ ] Am I depending on abstractions?
+
+### After Writing Code
+- [ ] Is the code self-documenting?
+- [ ] Have I removed unnecessary complexity?
+- [ ] Are all tests passing?
+- [ ] Would a new developer understand this?
+- [ ] Have I followed the project's conventions?
+
+## Common Violations to Avoid
+
+### Code Smells
+- Long parameter lists
+- Feature envy (using other class's data excessively)
+- Inappropriate intimacy between classes
+- Large classes or methods
+- Divergent change (class changes for multiple reasons)
+- Shotgun surgery (change requires many small edits)
+- Duplicate code blocks
+- Dead code
+- Speculative generality
+
+### Anti-patterns
+- God objects
+- Spaghetti code
+- Copy-paste programming
+- Magic numbers/strings
+- Premature optimization
+- Not invented here syndrome
+- Golden hammer (overusing familiar solutions)
+- Boat anchor (keeping unused code)

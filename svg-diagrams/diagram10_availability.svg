@@ -1,0 +1,26 @@
+<svg width="600" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="250" fill="#ffffff"/>
+  <text x="300" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">Annual Availability (Hours)</text>
+  
+  <!-- Human Developer -->
+  <rect x="50" y="70" width="200" height="100" rx="10" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="150" y="100" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Human Developer</text>
+  <text x="150" y="125" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">1,760 hrs</text>
+  <text x="150" y="145" text-anchor="middle" font-family="Arial" font-size="11" fill="#666">(220 days × 8 hrs)</text>
+  
+  <!-- AI Developer -->
+  <rect x="350" y="70" width="200" height="100" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
+  <text x="450" y="100" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">AI Developer</text>
+  <text x="450" y="125" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">8,760 hrs</text>
+  <text x="450" y="145" text-anchor="middle" font-family="Arial" font-size="11" fill="#666">(365 days × 24 hrs)</text>
+  
+  <!-- Arrow -->
+  <path d="M 250 120 L 350 120" stroke="#666" stroke-width="2" marker-end="url(#arrow2)"/>
+  <text x="300" y="115" text-anchor="middle" font-size="12" fill="#666">5x less available</text>
+  
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

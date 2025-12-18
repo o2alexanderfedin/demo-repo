@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# Pre-commit hook: Enforce task workflow
+# Ensures that:
+# 1. Work is only done on feature branches linked to tasks
+# 2. Tasks are assigned to the user
+# 3. Tasks are in "In Progress" status
+
+# Colors
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+# Get current branch
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Check if we're on main or develop
+if [[ "$CURRENT_BRANCH" == "main" ]] || [[ "$CURRENT_BRANCH" == "develop" ]]; then
+    echo -e "${RED}❌ ERROR: Direct commits to '$CURRENT_BRANCH' are not allowed!${NC}"
+    echo -e "${YELLOW}Please use GitFlow:${NC}"
+    echo -e "  ${GREEN}git flow feature start <feature-name>${NC}"
+    exit 1
+fi
+
+# Check if we're on a feature branch
+if [[ "$CURRENT_BRANCH" =~ ^feature/ ]]; then
+    # Check if there's a linked task
+    if [ -f ".claude/current-task.txt" ]; then
+        TASK_NUMBER=$(cat .claude/current-task.txt)
+        
+        if [ -n "$TASK_NUMBER" ]; then
+            echo -e "${BLUE}🔍 Verifying task #$TASK_NUMBER status...${NC}"
+            
+            # Configuration
+            PROJECT_OWNER="o2alexanderfedin"
+            PROJECT_NUMBER=12
+            REPO="telethon-architecture-docs"
+            
+            # Get current user
+            CURRENT_USER=$(gh api user --jq '.login' 2>/dev/null || echo "")
+            
+            if [ -z "$CURRENT_USER" ]; then
+                echo -e "${YELLOW}⚠️  Warning: Could not determine current user${NC}"
+            else
+                # Check if issue is assigned to current user
+                ASSIGNEES=$(gh issue view "$TASK_NUMBER" --repo "$PROJECT_OWNER/$REPO" --json assignees --jq '.assignees[].login' 2>/dev/null)
+                
+                if ! echo "$ASSIGNEES" | grep -q "$CURRENT_USER"; then
+                    echo -e "${RED}❌ ERROR: Task #$TASK_NUMBER is not assigned to you!${NC}"
+                    echo -e "${YELLOW}The task must be assigned to you before you can work on it.${NC}"
+                    echo -e "\nTo fix this, run:"
+                    echo -e "  ${GREEN}gh issue edit $TASK_NUMBER --repo $PROJECT_OWNER/$REPO --add-assignee $CURRENT_USER${NC}"
+                    exit 1
+                fi
+                
+                # Check task status in project
+                TASK_STATUS=$(gh project item-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json 2>/dev/null | \
+                    jq -r --arg num "$TASK_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .status // "No Status"')
+                
+                if [ "$TASK_STATUS" != "In Progress" ]; then
+                    echo -e "${RED}❌ ERROR: Task #$TASK_NUMBER is not in 'In Progress' status!${NC}"
+                    echo -e "${YELLOW}Current status: $TASK_STATUS${NC}"
+                    echo -e "${YELLOW}The task must be in 'In Progress' status before you can commit.${NC}"
+                    echo -e "\nTo fix this, run:"
+                    echo -e "  ${GREEN}./tools/github-project-management/utilities/update-task-status-simple.sh $TASK_NUMBER \"In Progress\"${NC}"
+                    exit 1
+                fi
+                
+                echo -e "${GREEN}✅ Task #$TASK_NUMBER is assigned to you and in progress${NC}"
+            fi
+        else
+            echo -e "${YELLOW}⚠️  Warning: Empty task number in .claude/current-task.txt${NC}"
+        fi
+    else
+        echo -e "${RED}❌ ERROR: No task linked to this feature branch!${NC}"
+        echo -e "${YELLOW}Every feature must be linked to a task.${NC}"
+        echo -e "\nTo fix this:"
+        echo -e "  1. Get a task: ${GREEN}git next --auto-assign${NC}"
+        echo -e "  2. Or manually link: ${GREEN}echo 'TASK_NUMBER' > .claude/current-task.txt${NC}"
+        exit 1
+    fi
+fi
+
+# Additional checks for good commits
+echo -e "${BLUE}📋 Running commit quality checks...${NC}"
+
+# Check for debugging statements
+if git diff --cached --name-only | xargs grep -l "console\.log\|debugger\|print\s*(" 2>/dev/null; then
+    echo -e "${YELLOW}⚠️  Warning: Found debugging statements in staged files${NC}"
+    echo -e "Consider removing console.log, debugger, or print statements"
+fi
+
+# Check for TODO comments
+if git diff --cached --name-only | xargs grep -l "TODO\|FIXME\|XXX" 2>/dev/null; then
+    echo -e "${YELLOW}⚠️  Note: Found TODO/FIXME comments in staged files${NC}"
+fi
+
+echo -e "${GREEN}✅ Pre-commit checks passed${NC}"

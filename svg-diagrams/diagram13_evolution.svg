@@ -1,0 +1,29 @@
+<svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="300" fill="#ffffff"/>
+  <text x="300" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#000">Software Development Evolution</text>
+  
+  <!-- Past -->
+  <rect x="50" y="80" width="150" height="80" rx="10" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="125" y="110" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Past</text>
+  <text x="125" y="135" text-anchor="middle" font-family="Arial" font-size="12" fill="#000">100% Human</text>
+  
+  <!-- Present -->
+  <rect x="225" y="80" width="150" height="80" rx="10" fill="#f9fafb" stroke="#6b7280" stroke-width="2"/>
+  <text x="300" y="110" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Present</text>
+  <text x="300" y="135" text-anchor="middle" font-family="Arial" font-size="12" fill="#000">10% AI, 90% Human</text>
+  
+  <!-- Future -->
+  <rect x="400" y="80" width="150" height="80" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
+  <text x="475" y="110" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#000">Future</text>
+  <text x="475" y="135" text-anchor="middle" font-family="Arial" font-size="12" fill="#000">70% AI, 30% Human</text>
+  
+  <!-- Arrows -->
+  <path d="M 200 120 L 225 120" stroke="#666" stroke-width="3" marker-end="url(#arrow5)"/>
+  <path d="M 375 120 L 400 120" stroke="#666" stroke-width="3" marker-end="url(#arrow5)"/>
+  
+  <defs>
+    <marker id="arrow5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+</svg>
