@@ -133,7 +133,14 @@
       "WebFetch(domain:github.com)",
       "Bash(rg:*)",
       "Bash(./tools/configure-auto-completion.sh:*)",
-      "Bash(./tools/github-project-management/utilities/get-next-kanban-item.sh:*)"
+      "Bash(./tools/github-project-management/utilities/get-next-kanban-item.sh:*)",
+      "Bash(gh pr list:*)",
+      "Bash(/Users/alexanderfedin/Projects/demo/tools/github-project-management/utilities/get-next-kanban-item-simple.sh:*)",
+      "Bash(git config:*)",
+      "Bash(gh pr create:*)",
+      "Bash(/Users/alexanderfedin/Projects/demo/scripts/task-creation/create-epics-project-compatible.sh:*)",
+      "Bash(./tools/github-project-management/utilities/test-single-epic.sh:*)",
+      "Bash(./tools/github-project-management/utilities/test-single-epic-fixed.sh:*)"
     ],
     "deny": []
   }

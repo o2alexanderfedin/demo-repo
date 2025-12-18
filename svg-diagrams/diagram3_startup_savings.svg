@@ -1,0 +1,26 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#ffffff"/>
+  <text x="200" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#1f2937">Startup Cost Savings with AI Developer</text>
+  
+  <!-- Pie Chart -->
+  <g transform="translate(200, 170)">
+    <!-- Development Cost (14% = 50.4 degrees) -->
+    <path d="M 0,-80 A 80,80 0 0,1 77.3,20.9 L 0,0 Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    
+    <!-- Saved Budget (86% = 309.6 degrees) -->
+    <path d="M 77.3,20.9 A 80,80 0 1,1 -0.1,-80 L 0,0 Z" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Labels -->
+    <text x="40" y="-20" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f2937">14%</text>
+    <text x="-30" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f2937">86%</text>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(50, 260)">
+    <rect x="0" y="0" width="20" height="15" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="25" y="12" font-size="14" fill="#1f2937">Development: $4,500 (14%)</text>
+    
+    <rect x="200" y="0" width="20" height="15" fill="#d1fae5" stroke="#059669"/>
+    <text x="225" y="12" font-size="14" fill="#1f2937">Saved Budget: $26,750 (86%)</text>
+  </g>
+</svg>
